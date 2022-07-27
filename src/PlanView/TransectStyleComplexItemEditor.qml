@@ -36,6 +36,17 @@ Rectangle {
     property string _doneAdjusting:             qsTr("Done")
     property bool   _presetsAvailable:          _missionItem.presetNames.length !== 0
 
+    QGCFileDialog {
+        id:             obstacleFile
+        folder:         shortcuts.documents
+        nameFilters:    [ "Obstacle files (*.pnt)", "All files (*)" ]
+
+        onAcceptedForLoad: {
+            _missionItem.loadObstacleFile(file)
+            close()
+        }
+    }
+
     function polygonCaptureStarted() {
         _missionItem.clearPolygon()
     }
@@ -49,6 +60,15 @@ Rectangle {
     function polygonAdjustVertex(vertexIndex, vertexCoordinate) {
         _missionItem.adjustPolygonCoordinate(vertexIndex, vertexCoordinate)
     }
+
+    function loadFromSelectedFile() {
+        obstacleFile.title =          qsTr("Select Obstacle File")
+
+        obstacleFile.selectExisting = true
+        obstacleFile.nameFilters = [ "Obstacle files (*.pnt)", "All files (*)" ]
+        obstacleFile.openForLoad()
+    }
+
 
     function polygonAdjustStarted() { }
     function polygonAdjustFinished() { }
@@ -120,11 +140,19 @@ Rectangle {
 
                 QGCButton {
                     Layout.alignment:   Qt.AlignHCenter
-                    text:               qsTr("Rotate Entry Point")
+                    text:               _missionItem.patternName == qsTr("Pathfinding")? qsTr("Refresh Path") : qsTr("Rotate Entry Point")
                     onClicked:          _missionItem.rotateEntryPoint()
                     visible:            transectValuesHeader.checked
                 }
-
+                QGCButton {
+                    Layout.alignment:   Qt.AlignHCenter
+                    text:               qsTr("Load Obstacle File")
+                    onClicked:
+                    {
+                        loadFromSelectedFile()
+                    }
+                    visible:            transectValuesHeader.checked && _missionItem.patternName == qsTr("Pathfinding")
+                }
                 SectionHeader {
                     id:                 statsHeader
                     Layout.fillWidth:   true

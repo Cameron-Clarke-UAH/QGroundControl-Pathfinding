@@ -1,0 +1,49 @@
+{
+    "version":      1,
+    "fileType":  "FactMetaData",
+    "QGC.MetaData.Facts":
+[
+{
+    "name":             "AvoidanceRadius",
+    "shortDesc": "Avoids Radius.",
+    "type":             "double",
+    "units":            "m",
+    "min":              0,
+    "decimalPlaces":    1,
+    "default":     2
+},
+{
+    "name":             "StartAltitude",
+    "shortDesc": "Starting Altitude",
+    "type":             "double",
+    "units":            "m",
+    "min":              0,
+    "decimalPlaces":    1,
+    "default":     130
+},
+{
+    "name":             "EndAltitude",
+    "shortDesc": "Final Altitude",
+    "type":             "double",
+    "units":            "m",
+    "min":              0,
+    "decimalPlaces":    1,
+    "default":     130
+},
+{
+    "name":             "GridSize",
+    "shortDesc": "A* Pathing Grid Size",
+    "type":             "double",
+    "units":            "m",
+    "min":              0,
+    "decimalPlaces":    1,
+    "default":     4
+},
+{
+    "name":             "RelativeToSurface",
+    "shortDesc": "Start and End altitudes are relative to the surface, otherwise AMSL",
+    "type":             "bool",
+    "default":     true
+}
+]
+}

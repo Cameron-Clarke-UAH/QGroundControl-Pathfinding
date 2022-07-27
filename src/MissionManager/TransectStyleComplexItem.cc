@@ -804,7 +804,7 @@ void TransectStyleComplexItem::_adjustForMaxRates(void)
                 if (climbRate > 0 && climbRate - maxClimbRate > 0.1) {
                     double maxAltitudeDelta = maxClimbRate * seconds;
                     fromCoord.setAltitude(toCoord.altitude() - maxAltitudeDelta);
-                    //qDebug() << "Adjusting";
+                    qDebug() << "Adjusting";
                     climbRateAdjusted = true;
                 }
             }
@@ -876,9 +876,9 @@ void TransectStyleComplexItem::_buildFlightPathCoordInfoFromTransects(void)
             CoordInfo_t fromCoordInfo   = transect[transectCoordIndex];
             CoordInfo_t toCoordInfo     = transect[transectCoordIndex+1];
 
-            fromCoordInfo.coord.setAltitude(distanceToSurface);
-            toCoordInfo.coord.setAltitude(distanceToSurface);
 
+            if (fromCoordInfo.coordType!=CoordTypePathing) fromCoordInfo.coord.setAltitude(distanceToSurface);
+            if (toCoordInfo.coordType!=CoordTypePathing) toCoordInfo.coord.setAltitude(distanceToSurface);
             if (transectCoordIndex == 0) {
                 _rgFlightPathCoordInfo.append(fromCoordInfo);
             }
@@ -910,30 +910,34 @@ void TransectStyleComplexItem::_buildFlightPathCoordInfoFromPathHeightInfoForCal
 
             const auto& pathHeightInfo = _rgPathHeightInfo[pathHeightIndex++];
 
-            fromCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.first());
-            toCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.last());
+            if (fromCoordInfo.coordType!=CoordTypePathing) fromCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.first());
+            if (toCoordInfo.coordType!=CoordTypePathing) toCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.last());
 
             if (transectCoordIndex == 0) {
                 _rgFlightPathCoordInfo.append(fromCoordInfo);
             }
 
-            // Add interstitial points at max resolution of our terrain data
-            int cHeights = pathHeightInfo.heights.count();
+            if (fromCoordInfo.coordType!=CoordTypePathing || toCoordInfo.coordType!=CoordTypePathing){
 
-            double azimuth  = fromCoordInfo.coord.azimuthTo(toCoordInfo.coord);
-            double distance = fromCoordInfo.coord.distanceTo(toCoordInfo.coord);
+                // Add interstitial points at max resolution of our terrain data
+                int cHeights = pathHeightInfo.heights.count();
 
-            for (int pathHeightIndex=1; pathHeightIndex<cHeights - 1; pathHeightIndex++) {
-                double interstitialTerrainHeight = pathHeightInfo.heights[pathHeightIndex];
-                double percentTowardsTo = (1.0 / (cHeights - 1)) * pathHeightIndex;
+                double azimuth  = fromCoordInfo.coord.azimuthTo(toCoordInfo.coord);
+                double distance = fromCoordInfo.coord.distanceTo(toCoordInfo.coord);
 
-                CoordInfo_t interstitialCoordInfo;
-                interstitialCoordInfo.coordType = CoordTypeInteriorTerrainAdded;
-                interstitialCoordInfo.coord     = fromCoordInfo.coord.atDistanceAndAzimuth(distance * percentTowardsTo, azimuth);
-                interstitialCoordInfo.coord.setAltitude(interstitialTerrainHeight + distanceToSurface);
+                for (int pathHeightIndex=1; pathHeightIndex<cHeights - 1; pathHeightIndex++) {
+                    double interstitialTerrainHeight = pathHeightInfo.heights[pathHeightIndex];
+                    double percentTowardsTo = (1.0 / (cHeights - 1)) * pathHeightIndex;
 
-                _rgFlightPathCoordInfo.append(interstitialCoordInfo);
+                    CoordInfo_t interstitialCoordInfo;
+                    interstitialCoordInfo.coordType = CoordTypeInteriorTerrainAdded;
+                    interstitialCoordInfo.coord     = fromCoordInfo.coord.atDistanceAndAzimuth(distance * percentTowardsTo, azimuth);
+                    if (interstitialCoordInfo.coordType!=CoordTypePathing) interstitialCoordInfo.coord.setAltitude(interstitialTerrainHeight + distanceToSurface);
+
+                    _rgFlightPathCoordInfo.append(interstitialCoordInfo);
+                }
             }
+
 
             _rgFlightPathCoordInfo.append(toCoordInfo);
         }
@@ -958,7 +962,7 @@ void TransectStyleComplexItem::_buildFlightPathCoordInfoFromPathHeightInfoForCal
                 CoordInfo_t interstitialCoordInfo;
                 interstitialCoordInfo.coordType = CoordTypeInteriorTerrainAdded;
                 interstitialCoordInfo.coord     = fromCoordInfo.coord.atDistanceAndAzimuth(distance * percentTowardsTo, azimuth);
-                interstitialCoordInfo.coord.setAltitude(interstitialTerrainHeight + distanceToSurface);
+                if (interstitialCoordInfo.coordType!=CoordTypePathing) interstitialCoordInfo.coord.setAltitude(interstitialTerrainHeight + distanceToSurface);
 
                 _rgFlightPathCoordInfo.append(interstitialCoordInfo);
             }
@@ -989,8 +993,8 @@ void TransectStyleComplexItem::_buildFlightPathCoordInfoFromPathHeightInfoForTer
 
             const auto& pathHeightInfo = _rgPathHeightInfo[pathHeightIndex++];
 
-            fromCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.first());
-            toCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.last());
+            if (fromCoordInfo.coordType!=CoordTypePathing) fromCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.first());
+            if (toCoordInfo.coordType!=CoordTypePathing) toCoordInfo.coord.setAltitude(distanceToSurface + pathHeightInfo.heights.last());
 
             if (transectCoordIndex == 0) {
                 _rgFlightPathCoordInfo.append(fromCoordInfo);
@@ -1028,8 +1032,8 @@ void TransectStyleComplexItem::_buildFlightPathCoordInfoFromMissionItems(void)
         CoordInfo_t fromCoordInfo   = { _rgFlyThroughMissionItemCoords[i],      CoordTypeInterior };
         CoordInfo_t toCoordInfo     = { _rgFlyThroughMissionItemCoords[i+1],    CoordTypeInterior };
 
-        fromCoordInfo.coord.setAltitude(fromCoordInfo.coord.altitude() + heightAtCoord);
-        toCoordInfo.coord.setAltitude(toCoordInfo.coord.altitude() + heightAtCoord);
+        if (fromCoordInfo.coordType!=CoordTypePathing) fromCoordInfo.coord.setAltitude(fromCoordInfo.coord.altitude() + heightAtCoord);
+        if (toCoordInfo.coordType!=CoordTypePathing) toCoordInfo.coord.setAltitude(toCoordInfo.coord.altitude() + heightAtCoord);
 
         _rgFlightPathCoordInfo.append(fromCoordInfo);
     }
@@ -1052,6 +1056,7 @@ int TransectStyleComplexItem::lastSequenceNumber(void) const
             const CoordInfo_t& coordInfo = _rgFlightPathCoordInfo[coordIndex];
             switch (coordInfo.coordType) {
             case CoordTypeInterior:
+            case CoordTypePathing:
             case CoordTypeInteriorTerrainAdded:
                 itemCount++; // Waypoint only
                 break;
@@ -1137,8 +1142,6 @@ void TransectStyleComplexItem::appendMissionItems(QList<MissionItem*>& items, QO
 
 void TransectStyleComplexItem::_appendWaypoint(QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, MAV_FRAME mavFrame, float holdTime, const QGeoCoordinate& coordinate)
 {
-    double altitude = _cameraCalc.distanceMode() == QGroundControlQmlGlobal::AltitudeModeCalcAboveTerrain ? coordinate.altitude() : _cameraCalc.distanceToSurface()->rawValue().toDouble();
-
     MissionItem* item = new MissionItem(seqNum++,
                                         MAV_CMD_NAV_WAYPOINT,
                                         mavFrame,
@@ -1148,7 +1151,7 @@ void TransectStyleComplexItem::_appendWaypoint(QList<MissionItem*>& items, QObje
                                         std::numeric_limits<double>::quiet_NaN(),    // Yaw unchanged
                                         coordinate.latitude(),
                                         coordinate.longitude(),
-                                        altitude,
+                                        coordinate.altitude(),
                                         true,                                        // autoContinue
                                         false,                                       // isCurrentItem
                                         missionItemParent);
@@ -1172,8 +1175,6 @@ void TransectStyleComplexItem::_appendSinglePhotoCapture(QList<MissionItem*>& it
 
 void TransectStyleComplexItem::_appendConditionGate(QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, MAV_FRAME mavFrame, const QGeoCoordinate& coordinate)
 {
-    double altitude = _cameraCalc.distanceMode() == QGroundControlQmlGlobal::AltitudeModeCalcAboveTerrain ? coordinate.altitude() : _cameraCalc.distanceToSurface()->rawValue().toDouble();
-
     MissionItem* item = new MissionItem(seqNum++,
                                         MAV_CMD_CONDITION_GATE,
                                         mavFrame,
@@ -1182,7 +1183,7 @@ void TransectStyleComplexItem::_appendConditionGate(QList<MissionItem*>& items, 
                                         0, 0,                                        // Param 3-4 ignored
                                         coordinate.latitude(),
                                         coordinate.longitude(),
-                                        altitude,
+                                        coordinate.altitude(),
                                         true,                                        // autoContinue
                                         false,                                       // isCurrentItem
                                         missionItemParent);
@@ -1259,6 +1260,7 @@ void TransectStyleComplexItem::_buildAndAppendMissionItems(QList<MissionItem*>& 
         const CoordInfo_t& coordInfo = _rgFlightPathCoordInfo[coordIndex];
         switch (coordInfo.coordType) {
         case CoordTypeInterior:
+        case CoordTypePathing:
         case CoordTypeInteriorTerrainAdded:
             _appendWaypoint(items, missionItemParent, seqNum, mavFrame, 0 /* holdTime */, coordInfo.coord);
             break;
