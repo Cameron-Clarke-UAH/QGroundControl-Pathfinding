@@ -27,16 +27,13 @@ Key Links:
 # QGroundControl Pathfinding
 ![HeightMapVIs](https://user-images.githubusercontent.com/110111597/181274173-b5c820e9-c35b-400b-848b-8eef87aa7a5a.png)
 
-Pathfinding:
-
 This QGroundControl implementation adds a pathfinding system for mission planning under the complex mission item tab. The pathfinding makes use of a custom binary obstacle file format that stores UTM coordinates as a height map.
 
-![Picture1](https://user-images.githubusercontent.com/110111597/181274540-5852753b-fc4c-4730-82aa-58a258bc5486.png)
 
-Installation: 
+# Installation: 
 The program can be installed by the installer found under the releases tab. Additionally an example height map file of the University of Alabama in Huntsville is provided.
 
-Usage:
+# Usage:
 To make use of the pathfinding system a high resolution (greater than < 1 meter between points) is required. Documentation on how this file is formatted can be found under the obstacle generation folder.
 
 After installation, start the QGroundControl software. 
