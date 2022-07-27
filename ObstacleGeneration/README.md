@@ -26,20 +26,26 @@ Y=YOffset+Scale*Index//Width]
 
 
 Index = (Y-YMinimum)*PointsPerMeter*Width+(X-XMinimum)*PointsPerMeter
-
+```
 Header:
 
-(int) UTM Zone  					(16)
+(int) UTM Zone  					  
+(16)
 
-(bool) North/South 					(True/False)
+(bool) North/South 					   
+(True/False)
 
-(double)OffsetX					(MinX)
+(double)OffsetX					            
+(MinX)
 
-(double)OffsetY					(MinY)
+(double)OffsetY					            
+(MinY)
 
-(double)DistanceBetweenPoints 		(0.5 m)
+(double)DistanceBetweenPoints 		  
+(0.5 m)
 
-(int) XCount 						((MaxX-MinX)/Scale)
+(int) XCount 						            
+((MaxX-MinX)/Scale)
 
 Data:
 
@@ -50,6 +56,6 @@ Data:
 (float) Z 
 
 ........
-
+```
 
 
