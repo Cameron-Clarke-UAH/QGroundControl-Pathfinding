@@ -24,7 +24,7 @@ Key Links:
 * [License](https://github.com/mavlink/qgroundcontrol/blob/master/COPYING.md)
 
 
-QGroundControl Pathfinding
+# QGroundControl Pathfinding
 ![HeightMapVIs](https://user-images.githubusercontent.com/110111597/181274173-b5c820e9-c35b-400b-848b-8eef87aa7a5a.png)
 
 Pathfinding:
