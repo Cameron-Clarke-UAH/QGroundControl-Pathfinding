@@ -31,10 +31,10 @@ This QGroundControl implementation adds a pathfinding system for mission plannin
 
 
 # Installation: 
-The program can be installed by the installer found under the releases tab. Additionally an example height map file of the University of Alabama in Huntsville is provided.
+The program can be installed by the installer found under the releases tab. Additionally, an example height map file of the University of Alabama in Huntsville is provided.
 
 # Usage:
-To make use of the pathfinding system a high resolution (greater than < 1 meter between points) is required. Documentation on how this file is formatted can be found under the obstacle generation folder.
+To make use of the pathfinding system a high resolution ( less than 1 meter between points) is required. Documentation on how this file is formatted can be found under the obstacle generation folder.
 
 After installation, start the QGroundControl software. 
 Upon startup you will be asked to select general settings. 
@@ -69,11 +69,11 @@ The pathfinding option should be clicked. This will create a new pathfinding mis
 In order to select the start and end locations one should press the basic button in the polyline menu shown at the top of the screen: 
 ![image](https://user-images.githubusercontent.com/110111597/181283685-2505ed49-7f9e-416c-b6a1-d008a583e996.png)
 
-This will create a single poly line: 
+This will create a single polyline: 
 
 ![image](https://user-images.githubusercontent.com/110111597/181283883-ea4f7271-4661-4b11-bc2a-9a9300d6abec.png)
 
-By dragging the start and end locations of this polyline the user can select the start and end locations. The top circle is the start location by default.
+By dragging the ends of the polyline the user can select the start and end locations. The top circle is the start location by default.
 
 After creating the polyline multiple menu options will be shown on the right side.
 
