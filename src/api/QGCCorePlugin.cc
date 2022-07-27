@@ -27,7 +27,6 @@
 
 #include <QtQml>
 #include <QQmlEngine>
-
 /// @file
 ///     @brief Core Plugin Interface for QGroundControl - Default Implementation
 ///     @author Gus Grubba <gus@auterion.com>

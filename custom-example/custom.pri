@@ -69,17 +69,17 @@ INCLUDEPATH += \
 #-------------------------------------------------------------------------------------
 # Custom Firmware/AutoPilot Plugin
 
-INCLUDEPATH += \
-    $$PWD/src/FirmwarePlugin \
-    $$PWD/src/AutoPilotPlugin
+#INCLUDEPATH += \
+#    $$PWD/src/FirmwarePlugin \
+#    $$PWD/src/AutoPilotPlugin
 
-HEADERS+= \
-    $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.h \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.h \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.h \
+#HEADERS+= \
+#    $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.h \
+#    $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.h \
+#    $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.h \
 
-SOURCES += \
-    $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.cc \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
+#SOURCES += \
+#    $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.cc \
+#    $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
+#    $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
 

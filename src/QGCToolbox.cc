@@ -50,6 +50,7 @@
 #include CUSTOMHEADER
 #endif
 
+
 QGCToolbox::QGCToolbox(QGCApplication* app)
 {
     // SettingsManager must be first so settings are available to any subsequent tools

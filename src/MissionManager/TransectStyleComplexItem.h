@@ -166,6 +166,8 @@ protected:
         CoordTypeSurveyEntry,           ///< Waypoint at entry edge of survey polygon
         CoordTypeSurveyExit,            ///< Waypoint at exit edge of survey polygon
         CoordTypeTurnaround,            ///< Turnaround extension waypoint
+        CoordTypePathing,            ///< Pathing waypoiny
+
     };
 
     typedef struct {

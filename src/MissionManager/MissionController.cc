@@ -20,6 +20,7 @@
 #include "VTOLLandingComplexItem.h"
 #include "StructureScanComplexItem.h"
 #include "CorridorScanComplexItem.h"
+#include "PathingComplexItem.h"
 #include "JsonHelper.h"
 #include "ParameterManager.h"
 #include "QGroundControlQmlGlobal.h"
@@ -325,7 +326,16 @@ VisualMissionItem* MissionController::_insertSimpleMissionItemWorker(QGeoCoordin
             QGroundControlQmlGlobal::AltMode    prevAltMode;
 
             if (_findPreviousAltitude(visualItemIndex, &prevAltitude, &prevAltMode)) {
-                newItem->altitude()->setRawValue(prevAltitude);
+                if(coordinate.altitude())
+                {
+                    newItem->altitude()->setRawValue(coordinate.altitude());
+                }else
+                {
+                    newItem->altitude()->setRawValue(prevAltitude);
+                }
+
+
+
                 if (globalAltitudeMode() == QGroundControlQmlGlobal::AltitudeModeMixed) {
                     // We are in mixed altitude modes, so copy from previous. Otherwise alt mode will be set from global setting.
                     newItem->setAltitudeMode(static_cast<QGroundControlQmlGlobal::AltMode>(prevAltMode));
@@ -451,6 +461,8 @@ VisualMissionItem* MissionController::insertComplexMissionItem(QString itemName,
         newItem = new StructureScanComplexItem(_masterController, _flyView, QString() /* kmlFile */);
     } else if (itemName == CorridorScanComplexItem::name) {
         newItem = new CorridorScanComplexItem(_masterController, _flyView, QString() /* kmlFile */);
+    } else if (itemName == PathfindingComplexItem::name) {
+        newItem = new PathfindingComplexItem(_masterController, _flyView, QString() /* kmlFile */);
     } else {
         qWarning() << "Internal error: Unknown complex item:" << itemName;
         return nullptr;
@@ -2258,6 +2270,7 @@ QStringList MissionController::complexMissionItemNames(void) const
 
     complexItems.append(SurveyComplexItem::name);
     complexItems.append(CorridorScanComplexItem::name);
+    complexItems.append(PathfindingComplexItem::name);
     if (_controllerVehicle->multiRotor() || _controllerVehicle->vtol()) {
         complexItems.append(StructureScanComplexItem::name);
     }

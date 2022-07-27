@@ -11,7 +11,7 @@ import QGroundControl.Palette           1.0
 // Camera calculator "Grid" section for mission item editors
 Column {
     spacing: _margin
-
+    visible: _missionItem.patternName != qsTr("Pathfinding")
     property var    cameraCalc
     property bool   vehicleFlightIsFrontal:         true
     property string distanceToSurfaceLabel
