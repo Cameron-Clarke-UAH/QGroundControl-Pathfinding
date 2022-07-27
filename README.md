@@ -15,7 +15,6 @@ It provides full flight control and mission planning for any MAVLink enabled dro
 All the code is open-source, so you can contribute and evolve it as you want.
 The [Developer Guide](https://dev.qgroundcontrol.com/en/) explains how to [build](https://dev.qgroundcontrol.com/en/getting_started/) and extend QGC.
 
-
 Key Links:
 * [Website](http://qgroundcontrol.com) (qgroundcontrol.com)
 * [User Manual](https://docs.qgroundcontrol.com/en/)
@@ -23,3 +22,7 @@ Key Links:
 * [Discussion/Support](https://docs.qgroundcontrol.com/en/Support/Support.html)
 * [Contributing](https://dev.qgroundcontrol.com/en/contribute/)
 * [License](https://github.com/mavlink/qgroundcontrol/blob/master/COPYING.md)
+
+
+Pathfinding:
+This QGroundControl implementation adds a pathfinding system for mission planning under the complex mission item tab. The pathfinding makes use of a custom binary obstacle file format that stores UTM coordinates as a height map.
